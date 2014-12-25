@@ -1,0 +1,31 @@
+{
+  "name": "cmagg",
+  "version": "0.0.0",
+  "dependencies": {
+    "modernizr": "2.8.x",
+    "angular": "1.2.x",
+    "angular-animate": "1.2.x",
+    "angular-cookies": "1.2.x",
+    "angular-touch": "1.2.x",
+    "angular-sanitize": "1.2.x",
+    "angular-resource": "1.2.x",
+    "angular-route": "1.2.x",
+    "firebase": "1.0.x",
+    "angularfire": "0.8.x",
+    "skeleton-css": "~2.0.2"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.2.x"
+  },
+  "resolutions": {
+    "angular": "1.2.x",
+    "modernizr": "2.8.x",
+    "firebase": "1.0.x",
+    "angularfire": "0.8.x"
+  },
+  "overrides": {
+    "skeleton-css": {
+      "main": "css/skeleton.css"
+    }
+  }
+}
