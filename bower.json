@@ -12,6 +12,9 @@
     "angular-route": "1.2.x",
     "firebase": "1.0.x",
     "angularfire": "0.8.x",
+    "angular-uuid4": "~0.3.0",
+    "playemjs": "0a421964",
+    "swfobject": "*",
     "skeleton-css": "~2.0.2"
   },
   "devDependencies": {
@@ -24,8 +27,19 @@
     "angularfire": "0.8.x"
   },
   "overrides": {
+    "playemjs": {
+      "main": [
+        "playem.js",
+        "playem-soundcloud.js",
+        "playem-youtube.js",
+        "playem-vimeo.js"
+      ]
+    },
     "skeleton-css": {
-      "main": "css/skeleton.css"
+      "main": [
+        "css/normalize.css",
+        "css/skeleton.css"
+      ]
     }
   }
 }

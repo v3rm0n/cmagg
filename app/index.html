@@ -2,7 +2,7 @@
 <html class="no-js" ng-app="cmagg">
   <head>
     <meta charset="utf-8">
-    <title>cmagg</title>
+    <title>Collaborative Music Aggregator</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -47,12 +47,21 @@
     <script src="bower_components/firebase-simple-login/firebase-simple-login.js"></script>
     <script src="bower_components/mockfirebase/dist/mockfirebase.js"></script>
     <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+    <script src="bower_components/angular-uuid4/angular-uuid4.js"></script>
+    <script src="bower_components/playemjs/playem.js"></script>
+    <script src="bower_components/playemjs/playem-soundcloud.js"></script>
+    <script src="bower_components/playemjs/playem-youtube.js"></script>
+    <script src="bower_components/playemjs/playem-vimeo.js"></script>
+    <script src="bower_components/swfobject/swfobject/swfobject.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({app,.tmp}) scripts/main.js -->
     <script src="scripts/cmagg.js"></script>
-    <script src="scripts/main/main-ctrl.js"></script>
+    <script src="scripts/main/MainController.js"></script>
+    <script src="scripts/main/PlayerController.js"></script>
+    <script src="scripts/main/PlaylistFactory.js"></script>
+    <script src="scripts/main/PlayerFactory.js"></script>
     <!-- inject:partials -->
     <!-- endinject -->
     <!-- endbuild -->
