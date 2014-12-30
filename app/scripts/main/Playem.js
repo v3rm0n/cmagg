@@ -10,30 +10,20 @@ app.run(['$window', function ($window) {
 
 app.value('players', [YoutubePlayer, SoundCloudPlayer, VimeoPlayer]);
 
-app.factory('Playem', ['$window', '$rootScope', 'players', function ($window, $rootScope, players) {
+app.factory('PlayemPlayer', ['Player', '$q', '$window', 'players', function (Player, $q, $window, players) {
 
-  return function () {
-
-    var params = {
-      origin: $window.location.host || $window.location.hostname,
-      playerContainer: $window.document.getElementById('player')
-    };
-
-    var playem = new Playem();
-
-    players.forEach(function (player) {
-      playem.addPlayer(player, params);
-    });
-
-    return playem;
+  var params = {
+    origin: $window.location.host || $window.location.hostname,
+    playerContainer: $window.document.getElementById('player')
   };
-}]);
 
-//This connects playem with firebase player info
-app.factory('PlayerService', ['Playem', 'Player', '$q', function (Playem, Player, $q) {
+  var playem = new Playem();
+
+  players.forEach(function (player) {
+    playem.addPlayer(player, params);
+  });
 
   return function (id, items) {
-    var playem = new Playem();
     var player = new Player(id);
 
     var findTrack = function (id) {
@@ -67,7 +57,7 @@ app.factory('PlayerService', ['Playem', 'Player', '$q', function (Playem, Player
         playing = player.currentTrack.id;
         play(player.currentTrack);
         playemState = 'playing';
-      } else if (playemState == 'paused' && !player.paused) {
+      } else if (playemState === 'paused' && !player.paused) {
         console.log('resume');
         playem.resume();
         playemState = 'playing';
@@ -94,10 +84,20 @@ app.factory('PlayerService', ['Playem', 'Player', '$q', function (Playem, Player
         if (player.currentTrack) {
           var i = findTrack(player.currentTrack.id);
           if (i === -1) {
-            console.log('current not in list');
             player.stop();
           }
         }
+      });
+    });
+
+    playem.on('onTrackChange', function (track) {
+      console.log('track changed');
+      items.$loaded().then(function () {
+        var i = items.findIndex(function (it) {
+          return it.$id == track.metadata.id;
+        });
+        playing = track.metadata.id;
+        player.setCurrent(items[i]);
       });
     });
 

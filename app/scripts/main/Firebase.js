@@ -53,11 +53,16 @@ app.factory('PlayerFactory', ['$FirebaseObject', function ($FirebaseObject) {
         this.currentTrack = track;
         this.currentTrack.id = track.$id;
       }
-      this.$save();
+      this.setCurrent(track);
     },
     stop: function () {
       this.paused = false;
       this.currentTrack = null;
+      this.$save();
+    },
+    setCurrent: function (track) {
+      this.currentTrack = track;
+      this.currentTrack.id = track.$id;
       this.$save();
     },
     isCurrent: function (id) {
