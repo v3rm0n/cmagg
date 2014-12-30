@@ -94,7 +94,7 @@ app.factory('PlayemPlayer', ['Player', '$q', '$window', 'players', function (Pla
       console.log('track changed');
       items.$loaded().then(function () {
         var i = items.findIndex(function (it) {
-          return it.$id == track.metadata.id;
+          return it.$id === track.metadata.id;
         });
         playing = track.metadata.id;
         player.setCurrent(items[i]);
