@@ -37,6 +37,7 @@ table.playlist tr td:first-child, table.playlist tr th:first-child {
   padding-left: 20px;
 }
 
-#player, #viplayer {
-  visibility: hidden;
+#player {
+  z-index: 1000;
+  margin: -200px;
 }

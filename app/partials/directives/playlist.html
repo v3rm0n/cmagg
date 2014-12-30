@@ -1,4 +1,4 @@
-<table class="u-full-width playlist" ng-show="items.length > 0">
+<table class="u-full-width playlist" ng-if="hasItems">
   <thead>
   <tr>
     <th>#</th>
@@ -19,3 +19,4 @@
   </tr>
   </tbody>
 </table>
+<p ng-if="!hasItems" class="ng-cloak">You have not added any tracks to the list yet</p>

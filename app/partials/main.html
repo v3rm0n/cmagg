@@ -1,8 +1,12 @@
 <div class="container">
   <div class="row">
     <div class="twelve columns main">
-      <h2>Collaborative Music Aggregator</h2>
-      <p>Add music from different sources to a collaborative playlist.</p>
+      <h2>Collective Playlist</h2>
+      <ul>
+        <li>Add music from different sources to a common playlist.</li>
+        <li>Share the list with your friends to collaborate.</li>
+        <li>Use one or more computers to play it back while controlling the playback remotely.</li>
+      </ul>
       <button class="button button-primary" ng-click="start()">Get started!</button>
       <div class="supported">
         <img ng-repeat="player in players" ng-src="images/{{player.name}}.png">
