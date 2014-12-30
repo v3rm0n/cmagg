@@ -4,7 +4,7 @@ angular.module('cmagg').controller('MainController', function ($scope, Playlist,
 
   $scope.start = function () {
     new Playlist().$loaded().then(function (playlist) {
-      $location.path('/player/' + playlist.$id);
+      $location.path('/playlist/' + playlist.$id);
     });
   };
 

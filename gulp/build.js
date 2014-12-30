@@ -51,6 +51,7 @@ gulp.task('html', ['styles', 'scripts', 'partials'], function () {
     .pipe($.useref.assets())
     .pipe($.rev())
     .pipe(jsFilter)
+    .pipe($.replace('bower_components/zeroclipboard/dist','swf'))
     .pipe($.ngAnnotate())
     .pipe($.uglify({preserveComments: $.uglifySaveLicense}))
     .pipe(jsFilter.restore())
@@ -62,6 +63,12 @@ gulp.task('html', ['styles', 'scripts', 'partials'], function () {
     .pipe($.useref())
     .pipe($.revReplace())
     .pipe(gulp.dest('dist'))
+    .pipe($.size());
+});
+
+gulp.task('flash', function () {
+  return gulp.src('app/bower_components/zeroclipboard/dist/ZeroClipboard.swf')
+    .pipe(gulp.dest('dist/swf'))
     .pipe($.size());
 });
 
@@ -84,8 +91,12 @@ gulp.task('fonts', function () {
     .pipe($.size());
 });
 
-gulp.task('clean', function () {
-  return gulp.src(['.tmp', 'dist'], { read: false }).pipe($.rimraf());
+gulp.task('clean', ['cache:clear'], function () {
+  return gulp.src(['.tmp', 'dist', '.sass-cache'], { read: false }).pipe($.rimraf());
 });
 
-gulp.task('build', ['html', 'partials', 'images', 'fonts']);
+gulp.task('cache:clear', function (done) {
+  return $.cache.clearAll(done);
+});
+
+gulp.task('build', ['html', 'partials', 'images', 'fonts', 'flash']);
