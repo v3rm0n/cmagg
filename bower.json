@@ -1,6 +1,6 @@
 {
   "name": "cmagg",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "dependencies": {
     "modernizr": "2.8.x",
     "angular": "1.2.x",
