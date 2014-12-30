@@ -8,7 +8,11 @@
   vertical-align: middle;
 }
 
-img.link {
+td.link {
+  padding: 0px;
+}
+
+td.link img {
   width: 64px;
 }
 
@@ -16,6 +20,23 @@ img.link {
   cursor: pointer;
 }
 
-.playing {
-  background-color: #03A9F4;
+table.playlist tbody tr {
+  cursor: pointer;
+}
+
+table.playlist tbody tr:hover {
+  background-color: #DFDFDF;
+}
+
+table.playlist tbody tr.playing {
+  background-color: #f6f6f6;
+  font-weight: bold;
+}
+
+table.playlist tr td:first-child, table.playlist tr th:first-child {
+  padding-left: 20px;
+}
+
+#player, #viplayer {
+  visibility: hidden;
 }

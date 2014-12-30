@@ -14,39 +14,15 @@ app.factory('Playem', ['$window', '$rootScope', 'players', function ($window, $r
 
   return function () {
 
-    var getPlayer = function (id) {
-      return $window.document.getElementById(id);
-    };
-
-    var createPlayer = function (id) {
-      var tag = $window.document.createElement('div');
-      tag.id = id;
-      $window.document.body.appendChild(tag);
-    };
-
-    createPlayer('player');
-    createPlayer('viplayer');
-
-    //Recreate youtube player element every time it's removed from DOM
-    $rootScope.$watch(getPlayer, function (newValue) {
-      if (!newValue) {
-        createPlayer('player');
-      }
-    });
-
-    var getParams = function (id) {
-      return {
-        origin: $window.location.host || $window.location.hostname,
-        playerContainer: getPlayer(id)
-      };
+    var params = {
+      origin: $window.location.host || $window.location.hostname,
+      playerContainer: $window.document.getElementById('player')
     };
 
     var playem = new Playem();
+
     players.forEach(function (player) {
-      playem.addPlayer(player, getParams('player'));
-      if (player === VimeoPlayer) {
-        playem.addPlayer(player, getParams('viplayer'));
-      }
+      playem.addPlayer(player, params);
     });
 
     return playem;
@@ -54,34 +30,75 @@ app.factory('Playem', ['$window', '$rootScope', 'players', function ($window, $r
 }]);
 
 //This connects playem with firebase player info
-app.factory('PlayerService', ['Playem', 'Player', function (Playem, Player) {
+app.factory('PlayerService', ['Playem', 'Player', '$q', function (Playem, Player, $q) {
 
-  return function (id) {
+  return function (id, items) {
     var playem = new Playem();
     var player = new Player(id);
 
-    var play = function (track) {
-      playem.clearQueue();
-      playem.addTrackByUrl(track.url);
-      playem.play(0);
+    var findTrack = function (id) {
+      return playem.getQueue().findIndex(function (added) {
+        return added.metadata.id === id;
+      });
     };
 
+    var play = function (track) {
+      var i = findTrack(track.id);
+      if (i !== -1) {
+        playem.stop();
+        playem.play(i);
+      }
+    };
+
+    var playing = player.currentTrack ? player.currentTrack.id : null;
     var playemState = 'stopped';
 
     player.$watch(function () {
-      if (!player.currentTrack && playemState !== 'stopped') {
-        playem.stop();
-        playemState = 'stopped';
-      } else if (player.paused && playemState !== 'paused') {
+      if (player.paused && playing && playemState !== 'paused') {
+        console.log('pause');
         playem.pause();
         playemState = 'paused';
-      } else if (player.currentTrack && playemState !== player.currentTrack.id) {
-        play(player.currentTrack);
-        playemState = player.currentTrack.id;
-      } else if (player.currentTrack && playemState === 'paused') {
-        playem.resume();
-        playemState = player.currentTrack.id;
+      } else if (!player.currentTrack) {
+        playem.stop();
+        playemState = 'stopped';
       }
+      else if (!player.paused && !player.isCurrent(playing)) {
+        console.log('play');
+        playing = player.currentTrack.id;
+        play(player.currentTrack);
+        playemState = 'playing';
+      } else if (playemState == 'paused' && !player.paused) {
+        console.log('resume');
+        playem.resume();
+        playemState = 'playing';
+      }
+    });
+
+    var initPlayem = function (items) {
+      console.log('initlist');
+      var d = $q.defer();
+      items.$loaded().then(function () {
+        playem.clearQueue();
+        items.forEach(function (item) {
+          playem.addTrackByUrl(item.url, {id: item.$id});
+        });
+        d.resolve();
+      });
+      return d.promise;
+    };
+
+    initPlayem(items);
+
+    items.$watch(function () {
+      initPlayem(items).then(function () {
+        if (player.currentTrack) {
+          var i = findTrack(player.currentTrack.id);
+          if (i === -1) {
+            console.log('current not in list');
+            player.stop();
+          }
+        }
+      });
     });
 
     return player;

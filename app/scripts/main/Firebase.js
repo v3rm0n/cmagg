@@ -8,18 +8,6 @@ app.value('firebaseRef', new Firebase('https://scorching-torch-3316.firebaseio.c
 
 app.factory('PlaylistItemFactory', ['$FirebaseArray', 'metadataService', function ($FirebaseArray, metadataService) {
   return $FirebaseArray.$extendFactory({
-    onRemove: function (handler) {
-      this.handlers = this.handlers || [];
-      var handlers = this.handlers;
-      handlers.push(handler);
-      this.$watch(function (e) {
-        if (e.event === 'child_removed') {
-          handlers.forEach(function (handler) {
-            handler(e.key);
-          });
-        }
-      });
-    },
     add: function (item) {
       var that = this;
       return metadataService.fetch(item.url).then(function (metadata) {
@@ -58,13 +46,13 @@ app.factory('Playlist', ['$firebase', 'firebaseRef', 'uuid4', function ($firebas
 app.factory('PlayerFactory', ['$FirebaseObject', function ($FirebaseObject) {
   return $FirebaseObject.$extendFactory({
     play: function (track) {
-      this.paused = false;
-      this.currentTrack = track;
-      this.currentTrack.id = track.$id;
-      this.$save();
-    },
-    toggle: function (paused) {
-      this.paused = paused || !this.paused;
+      if (this.currentTrack && track.$id === this.currentTrack.id && !this.paused) {
+        this.paused = true;
+      } else {
+        this.paused = false;
+        this.currentTrack = track;
+        this.currentTrack.id = track.$id;
+      }
       this.$save();
     },
     stop: function () {
@@ -72,8 +60,8 @@ app.factory('PlayerFactory', ['$FirebaseObject', function ($FirebaseObject) {
       this.currentTrack = null;
       this.$save();
     },
-    isCurrent: function (track) {
-      return this.currentTrack && this.currentTrack.id === track.$id;
+    isCurrent: function (id) {
+      return this.currentTrack && this.currentTrack.id === id;
     }
   });
 }]);

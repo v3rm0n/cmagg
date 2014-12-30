@@ -5,16 +5,15 @@ angular.module('cmagg').controller('PlaylistController', function ($scope, Playl
   var playlist = new Playlist($routeParams.id);
   playlist.$bindTo($scope, 'playlist');
 
-  var player = new Player($routeParams.id);
-  $scope.player = player;
+  $scope.items = playlist.getItems();
+
+  $scope.player = new Player($routeParams.id);
 
   $scope.nameChangeable = false;
 
   $scope.changeName = function (nameChangeable) {
     $scope.nameChangeable = nameChangeable;
   };
-
-  $scope.items = playlist.getItems();
 
   $scope.add = function (url) {
     $scope.items.add({url: url}).catch(function () {
@@ -28,18 +27,6 @@ angular.module('cmagg').controller('PlaylistController', function ($scope, Playl
 
   $scope.share = function () {
     $window.alert('Link to the playlist has been copied to clipboard. Paste to share!');
-  };
-
-  $scope.play = function (track) {
-    player.play(track || $scope.items[0]);
-  };
-
-  $scope.pause = function () {
-    player.toggle();
-  };
-
-  $scope.stop = function () {
-    player.stop();
   };
 
 });

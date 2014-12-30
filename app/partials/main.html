@@ -5,9 +5,7 @@
       <p>Add music from different sources to a collaborative playlist.</p>
       <button class="button button-primary" ng-click="start()">Get started!</button>
       <div class="supported">
-        <img src="images/SoundCloudPlayer.png">
-        <img src="images/YoutubePlayer.png">
-        <img src="images/VimeoPlayer.png">
+        <img ng-repeat="player in players" ng-src="images/{{player.name}}.png">
       </div>
     </div>
   </div>

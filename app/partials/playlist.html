@@ -7,37 +7,17 @@
     <a class="button" href="#/player/{{playlist.$id}}" target="_blank">Open player</a>
     <button class="button" clip-copy="link" clip-click="share()">Share playlist</button>
   </div>
-  <div class="row" ng-if="items.length > 0">
-    <div class="twelve columns">
-      <button class="button button-primary" ng-click="play()" ng-hide="player.currentTrack">Play {{player.currentTrack}}</button>
-      <button class="button" ng-click="stop()" ng-show="player.currentTrack">Stop</button>
-      <button class="button" ng-click="pause()" ng-show="player.currentTrack">{{player.paused ? 'Resume' : 'Pause'}}</button>
-    </div>
-  </div>
   <div class="row">
     <form ng-submit="add(url)">
       <div class="row">
         <div class="six columns">
-          <input class="u-full-width" type="text" ng-model="url" placeholder="http://youtube.com/">
+          <input class="u-full-width" type="text" ng-model="url" placeholder="https://www.youtube.com/watch?v=3a4ecZHyoao">
         </div>
         <div class="six columns">
           <input class="button-primary" type="submit" value="Add">
         </div>
       </div>
     </form>
-    <table class="u-full-width" ng-show="items.length > 0">
-      <thead>
-      <tr>
-        <th>Title</th>
-        <th>Type</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="item in items" ng-click="play(item)" ng-class="{playing: player.isCurrent(item)}">
-        <td>{{item.title}}</td>
-        <td><a href="{{item.url}}" target="_blank"><img class="link" ng-src="/images/{{item.type}}.png" alt="{{item.type}}"></a></td>
-      </tr>
-      </tbody>
-    </table>
+    <cmagg-playlist items="items" player="player"/>
   </div>
 </div>

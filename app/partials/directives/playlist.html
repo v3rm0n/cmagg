@@ -1,0 +1,21 @@
+<table class="u-full-width playlist" ng-show="items.length > 0">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Title</th>
+    <th>Type</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="item in items" ng-click="play(item)" ng-class="{playing: player.isCurrent(item.$id)}"
+      ng-mouseenter="active = $index" ng-mouseleave="active = -1">
+    <td ng-if="active !== $index && !player.isCurrent(item.$id)">{{$index+1}}</td>
+    <td ng-if="active === $index && !player.isCurrent(item.$id)"><i class="icon ion-play"></i></td>
+    <td ng-if="player.isCurrent(item.$id) && !player.paused"><i class="icon ion-pause"></i></td>
+    <td ng-if="player.paused && player.isCurrent(item.$id)"><i class="icon ion-play"></i></td>
+    <td>{{item.title}}</td>
+    <td class="link"><a href="{{item.url}}" target="_blank"><img ng-src="/images/{{item.type}}.png"
+                                                                 alt="{{item.type}}"></a></td>
+  </tr>
+  </tbody>
+</table>
