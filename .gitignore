@@ -1,0 +1,7 @@
+app
+.tmp
+dist
+.idea
+.sass-cache
+firebase.json
+node_modules
