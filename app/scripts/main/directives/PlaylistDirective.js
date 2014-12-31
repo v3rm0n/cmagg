@@ -14,10 +14,6 @@ app.directive('cmaggPlaylist', [function () {
 
       var player = scope.player;
 
-      scope.items.$loaded().then(function(){
-        scope.hasItems = scope.items.length > 0;
-      });
-
       scope.play = function (track) {
         player.play(track || scope.items[0]);
       };
