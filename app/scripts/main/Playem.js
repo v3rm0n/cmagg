@@ -1,4 +1,4 @@
-/* global Playem, YoutubePlayer, SoundCloudPlayer, VimeoPlayer  */
+/* global Playem, YoutubePlayer, SoundCloudPlayer, VimeoPlayer, SpotifyPlayer */
 
 'use strict';
 
@@ -8,7 +8,7 @@ app.run(['$window', function ($window) {
   $window.SOUNDCLOUD_CLIENT_ID = '18045be62973fcaed72ba23eedeec3e8';
 }]);
 
-app.value('players', [YoutubePlayer, SoundCloudPlayer, VimeoPlayer]);
+app.value('players', [YoutubePlayer, SoundCloudPlayer, VimeoPlayer, SpotifyPlayer]);
 
 app.factory('PlayemPlayer', ['Player', '$q', '$window', 'players', function (Player, $q, $window, players) {
 

@@ -18,7 +18,8 @@
     "skeleton-css": "~2.0.2",
     "zeroclipboard": "~2.2.0",
     "ng-clip": "~0.2.5",
-    "ionicons": "~2.0.0"
+    "ionicons": "~2.0.0",
+    "soundmanager": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.2.x"
@@ -35,13 +36,19 @@
         "playem.js",
         "playem-soundcloud.js",
         "playem-youtube.js",
-        "playem-vimeo.js"
+        "playem-vimeo.js",
+        "playem-audiofile.js"
       ]
     },
     "skeleton-css": {
       "main": [
         "css/normalize.css",
         "css/skeleton.css"
+      ]
+    },
+    "soundmanager": {
+      "main": [
+        "script/soundmanager2.js"
       ]
     }
   }

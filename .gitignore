@@ -5,3 +5,6 @@ dist
 app/bower_components
 .idea
 firebase.json
+cache
+settings
+spotify_appkey.key
